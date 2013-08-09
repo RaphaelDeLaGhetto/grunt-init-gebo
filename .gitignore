@@ -1,0 +1,8 @@
+/components/
+*.swp
+.DS_Store
+/node_modules/
+/.idea/
+*.iml
+*.log
+*~
