@@ -1,8 +1,11 @@
 /components/
+/root/public/components/
 *.swp
 .DS_Store
 /node_modules/
+/root/node_modules/
 /.idea/
 *.iml
 *.log
 *~
+/root/package.json
