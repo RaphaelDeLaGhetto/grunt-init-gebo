@@ -13,18 +13,29 @@ html(lang='en')
                     span.icon-bar
                 a.brand {%= name %}
                 .nav-collapse
-                ul.nav
-                    li.active
-                        a(href="/") Home
-                    li
-                        a(href="/login") Login
+                if (!user)
+                    ul.nav
+                        li.active
+                            a(href="/") Home
+                        li
+                            a(href="/login") Login
+                else
+                    ul.nav
+                        li.active
+                            a(href="/") Home
+                        li
+                            a(href="/admin") Admin
+                        li
+                            a(href="/account") Account
+                        li
+                            a(href="/logout") Logout
     .container
 
         block content
 
         block footer
             footer.page-footer
-                p &copy; Company 2012
+                p &copy; Company 2013
 
 
     | !{cachify_js('/components/jquery/jquery.min.js')}
