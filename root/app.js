@@ -1,5 +1,4 @@
 var express = require('express')
-//    , configurations = module.exports
     , app = express()
     , nconf = require('nconf')
     , winston = require('winston')
@@ -9,22 +8,25 @@ var express = require('express')
     , pass = require('./config/pass')
     , passport = require('passport')
     , user_routes = require('./routes/user')
-    , basic_routes = require('./routes/basic');
+    , basic_routes = require('./routes/basic')
 
+    // From jaredhanson/oauth2orize
+//    , site = require('./site')
+//    , oauth2 = require('./oauth2')
+//    , user = require('./user')
+    , util = require('util');
 
 // Logging
 var logger = new (winston.Logger)({ transports: [ new (winston.transports.Console)({colorize:true}) ] });
 
 // load the settings
-require('./settings')(app, /*configurations,*/ express, passport, logger)
+require('./settings')(app, express, passport, logger)
 
 // merge nconf overrides with the configuration file.
 nconf.argv().env().file({ file: 'local.json' });
 
 // Basic routes
 app.get('/', basic_routes.index);
-//app.get('/login', user_routes.getLogin);
-//app.get('/login', user_routes.myotherindex);
 
 // Authenticated user routes
 app.get('/account', pass.ensureAuthenticated, user_routes.account);

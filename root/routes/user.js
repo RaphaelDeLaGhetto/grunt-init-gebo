@@ -1,7 +1,9 @@
-var passport = require('passport');
+var passport = require('passport'),
+    login = require('connect-ensure-login');
 
 exports.account = function(req, res) {
-  res.render('account', { user: req.user });
+    login.ensureLoggedIn();
+    res.render('account', { user: req.user });
 };
 
 exports.getLogin = function(req, res) {
@@ -53,3 +55,12 @@ exports.logout = function(req, res) {
   req.logout();
   res.redirect('/');
 };
+
+/**
+ * OAuth2 stuff from jaredhanson/oauth2orize
+ */
+exports.login = passport.authenticate('local', {
+                    successReturnToOrRedirect: '/', failureRedirect: '/login' 
+                });
+
+

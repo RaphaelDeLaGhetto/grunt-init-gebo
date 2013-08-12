@@ -1,4 +1,4 @@
-module.exports = function (app, /*configurations,*/ express, passport, logger) {
+module.exports = function (app, express, passport, logger) {
 
     var nconf = require('nconf')
         , cachify = require('connect-cachify')
