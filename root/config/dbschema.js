@@ -79,6 +79,7 @@ exports.userModel = userModel;
  */
 var clientSchema = new Schema({
     name: { type: String, required: true, unique: true },
+    clientId: { type: String, required: true, unique: true },
     secret: { type: String, required: true, unique: true },
 });
 
@@ -111,6 +112,6 @@ var authorizationSchema = new Schema({
 
 // Export token model
 var authorizationModel = mongoose.model('Authorization', authorizationSchema);
-exports.tokenModel = tokenModel;
+exports.authorizationModel = authorizationModel;
 
 

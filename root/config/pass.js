@@ -25,13 +25,20 @@ var passport = require('passport'),
 passport.use(new LocalStrategy(
     function(username, password, done) {
         db.userModel.findOne({ username: username }, function(err, user) {
-            if (err) { return done(err); }
-            if (!user) { return done(null, false, { message: 'Invalid username or password' }); }
+            if (err) {
+              return done(err);
+            }
+            if (!user) {
+              return done(null, false, { message: 'Invalid username or password' });
+            }
             user.comparePassword(password, function(err, isMatch) {
-              if (err) return done(err);
+              if (err) {
+                return done(err);
+              }
               if(isMatch) {
                 return done(null, user);
-              } else {
+              }
+              else {
                 return done(null, false, { message: 'Invalid username or password' });
               }
         });
@@ -50,22 +57,25 @@ passport.deserializeUser(function(id, done) {
 
 // Simple route middleware to ensure user is authenticated.  Otherwise send to login page.
 exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
-}
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/login')
+};
 
 
 // Check for admin middleware, this is unrelated to passport.js
 // You can delete this if you use different method to check for admins or don't need admins
 exports.ensureAdmin = function ensureAdmin(req, res, next) {
     return function(req, res, next) {
-	console.log(req.user);
-        if(req.user && req.user.admin === true)
+        if(req.user && req.user.admin === true) {
             next();
-        else
+        }
+        else {
             res.send(403);
+        }
     }
-}
+};
 
 
 /**
@@ -83,13 +93,13 @@ passport.use(new BasicStrategy(
     function(clientName, password, done) {
         db.clientModel.findOne({ name: clientName }, function(err, client) {
             if (err) {
-                return done(err);
+              return done(err);
             }
             if (!client) { 
-                return done(null, false, { message: 'Invalid client credentials' }); 
+              return done(null, false, { message: 'Invalid client credentials' }); 
             }
             if (client.secret != password) {
-                return done(null, false);
+              return done(null, false);
             }
             return done(null, client);
         });

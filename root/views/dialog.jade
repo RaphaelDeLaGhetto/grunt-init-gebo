@@ -1,12 +1,11 @@
 extends layout
 
 block content
-    p
-        | Hello, #{user.username}
-        | #{client.name} wants access to your account.
-        | Do you approve?
+    p.lead Hello, #{user.username}
+    p #{oauthClient.name} wants access to your account.
+    p Do you approve?
 
-    form(action="dialog/authorize/decision", method="post")
+    form(action="/dialog/authorize/decision", method="post")
         input(name="transaction_id", type="hidden", value="#{transactionID}")
         div
             input(type="submit", value="Allow", id="allow")
