@@ -5,6 +5,10 @@ This software, in conjunction with grunt-init, creates a ready-to-deploy/develop
 
 ## Getting Started
 
+## Setup the database
+
+Read your new project's [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/tree/master/tasks/init/gebo/root).
+
 ### Setup grunt
 if you haven't already, that is... Gebo currently depends on grunt@0.4.1. This requires a bit of prep work.
 
@@ -61,10 +65,6 @@ $ node app.js
 ```
 
 Then go to <http://localhost:3000>.
-
-### Setup the database
-
-Read your new project's [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/tree/master/tasks/init/gebo/root).
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
