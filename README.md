@@ -5,9 +5,11 @@ This software, in conjunction with grunt-init, creates a ready-to-deploy/develop
 
 ## Getting Started
 
-## Setup the database
+### Setup the database
 
-Read your new project's [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/tree/master/tasks/init/gebo/root).
+Read your new project's [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/blob/master/root/README.md). It'll tell you to install MongoDB:
+
+* [http://docs.mongodb.org/manual/installation/](http://docs.mongodb.org/manual/installation/) 
 
 ### Setup grunt
 if you haven't already, that is... Gebo currently depends on grunt@0.4.1. This requires a bit of prep work.
