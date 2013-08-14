@@ -5,6 +5,12 @@ This software, in conjunction with grunt-init, creates a ready-to-deploy/develop
 
 ## Getting Started
 
+### Setup the database
+
+Read your new project's [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/blob/master/root/README.md). It'll tell you to install MongoDB:
+
+* [http://docs.mongodb.org/manual/installation/](http://docs.mongodb.org/manual/installation/) 
+
 ### Setup grunt
 if you haven't already, that is... Gebo currently depends on grunt@0.4.1. This requires a bit of prep work.
 
@@ -22,8 +28,29 @@ This is going in your `~/.grunt-init/` directory
 $ git clone https://github.com/RaphaelDeLaGhetto/grunt-init-gebo.git ~/.grunt-init/gebo
 ```
 
-## Documentation
-Further to the description above, this project is the composite effort of two authors with three relevant projects.
+### Create a new project:
+
+```
+$ mkdir mynewproject
+$ cd mynewproject
+$ grunt-init gebo
+$ npm install
+$ bower install
+```
+
+### Run your server
+
+```
+$ node app.js
+```
+
+and go to <http://localhost:3000>.
+
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
+
+## License
+This project is the composite effort of two authors with three relevant projects.
 
 These projects include:
 
@@ -49,29 +76,6 @@ These projects include:
     * passport-oauth2-client-password
     * connect-ensure-login
 
-### Create a new project:
-
-```
-$ mkdir mynewproject
-$ cd mynewproject
-$ grunt-init gebo
-$ npm install
-$ bower install
-$ node app.js
-```
-
-Then go to <http://localhost:3000>.
-
-### Setup the database
-
-Read your new project's [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/tree/master/tasks/init/gebo/root).
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
-
-## Release History
-
-## License
 All credit to where credit is due. Thank you, [jaredhanson](https://github.com/jaredhanson) and
 [wolfeidau](https://github.com/wolfeidau).
 
