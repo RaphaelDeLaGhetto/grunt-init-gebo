@@ -10,7 +10,8 @@ var oauth2orize = require('oauth2orize'),
     passport = require('passport'),
     login = require('connect-ensure-login'),
     db = require('../config/dbschema'),
-    utils = require('../lib/utils');
+    utils = require('../lib/utils'),
+    mongoose = require('mongoose');
 
 // create OAuth 2.0 server
 var server = oauth2orize.createServer();
@@ -33,14 +34,12 @@ server.serializeClient(function(client, done) {
 });
 
 server.deserializeClient(function(id, done) {
-    console.log(id);
-  db.clientModel.findOne({ id: id }, function(err, client) {
-    if (err) {
-      return done(err);
-    }
-    console.log(JSON.parse(client));
-    return done(null, client);
-  });
+    db.clientModel.findOne({ '_id': mongoose.Types.ObjectId(id) }, function(err, client) {
+        if (err) {
+          return done(err);
+        }
+        return done(null, client);
+    });
 });
 
 // Register supported grant types.
@@ -57,39 +56,55 @@ server.deserializeClient(function(id, done) {
 // the application.  The application issues a code, which is bound to these
 // values, and will be exchanged for an access token.
 
-server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, done) {
-  var code = utils.uid(16)
+server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, done) {
+    var code = utils.uid(16)
   
-  db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
-    if (err) { return done(err); }
-    done(null, code);
-  });
+    var authorization = new db.authorizationModel({
+            userId: user.id,
+            clientId: client.id,
+            redirectUri: redirectUri,
+            code: code
+        });
+
+    authorization.save(function(err, code) {
+        if (err) {
+          return done(err);
+        }
+        return done(null, code.code);
+    });
 }));
 
 // Exchange authorization codes for access tokens.  The callback accepts the
-// `client`, which is exchanging `code` and any `redirectURI` from the
+// `client`, which is exchanging `code` and any `redirectUri` from the
 // authorization request for verification.  If these values are validated, the
 // application issues an access token on behalf of the user who authorized the
 // code.
 
-server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, done) {
+server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, done) {
   db.authorizationModel.findOne({ code: code }, function(err, authCode) {
     if (err) {
         return done(err);
     }
-    if (client.id !== authCode.clientID) {
+    if (client.id._id !== authCode.clientId._id) {
         return done(null, false);
     }
-    if (redirectURI !== authCode.redirectURI) {
+    if (redirectUri !== authCode.redirectUri) {
         return done(null, false);
     }
     
-    var token = utils.uid(256)
-    db.tokenModel.save(token, authCode.userID, authCode.clientID, function(err) {
-      if (err) {
-        return done(err);
-      }
-      done(null, token);
+    var tokenStr = utils.uid(256);
+
+    var token = new db.tokenModel({
+            userId: authCode.userId,
+            clientId: client.id,
+            token: tokenStr,
+        });
+
+    token.save(function(err, token) {
+        if (err) {
+          return done(err);
+        }
+        return done(null, token.token);
     });
   });
 }));
@@ -112,7 +127,7 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
 
 exports.authorization = [
     login.ensureLoggedIn(),
-    server.authorization(function(clientId, redirectURI, done) {
+    server.authorization(function(clientId, redirectUri, done) {
         db.clientModel.findOne({ clientId: clientId }, function(err, client) {
             if (err) {
               return done(err);
@@ -121,7 +136,7 @@ exports.authorization = [
             //          redirectURI provided by the client matches one registered with
             //          the server.  For simplicity, this example does not.  You have
             //          been warned.
-            return done(null, client, redirectURI);
+            return done(null, client, redirectUri);
         });
     }),
     function(req, res) {
@@ -157,9 +172,5 @@ exports.token = [
     server.token(),
     server.errorHandler()
 ];
-
-//exports.login = passport.authenticate('local', {
-//                    successReturnToOrRedirect: '/', failureRedirect: '/login' 
-//                });
 
 

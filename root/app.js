@@ -2,18 +2,12 @@ var express = require('express')
     , app = express()
     , nconf = require('nconf')
     , winston = require('winston')
-
-    // From jaredhanson/passport-local
     , db = require('./config/dbschema')
     , pass = require('./config/pass')
     , passport = require('passport')
-    , user_routes = require('./routes/user')
+    , api_routes = require('./routes/api')
     , basic_routes = require('./routes/basic')
-
-    // From jaredhanson/oauth2orize
-//    , site = require('./site')
-//    , oauth2 = require('./oauth2')
-//    , user = require('./user')
+    , user_routes = require('./routes/user')
     , oauth2_routes = require('./routes/oauth2')
     , util = require('util');
     
@@ -41,7 +35,9 @@ app.get('/logout', user_routes.logout);
 app.get('/dialog/authorize', oauth2_routes.authorization); 
 app.post('/dialog/authorize/decision', oauth2_routes.decision); 
 app.post('/oauth/token', oauth2_routes.token);
-app.get('/api/userinfo', user_routes.account);
+
+// API routes
+app.get('/api/userinfo', api_routes.userinfo);
 
 logger.info('listening on', nconf.get('port'));
 app.listen(process.env.PORT || nconf.get('port'));

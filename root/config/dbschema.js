@@ -31,8 +31,8 @@ mongoose.connect(uristring, mongoOptions, function (err, res) {
 });
 
 //******* Database schema TODO add more validation
-var Schema = mongoose.Schema;//, 
-//    ObjectId = Schema.ObjectId;
+var Schema = mongoose.Schema, 
+    ObjectId = Schema.Types.ObjectId;
 
 /**
  * User schema
@@ -47,7 +47,7 @@ var userSchema = new Schema({
 
 // Bcrypt middleware
 userSchema.pre('save', function(next) {
-    var user = this;
+    var user = this
 
     if(!user.isModified('password')) return next();
 
@@ -78,9 +78,9 @@ exports.userModel = userModel;
  * Client schema
  */
 var clientSchema = new Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true, unique: false },
     clientId: { type: String, required: true, unique: true },
-    secret: { type: String, required: true, unique: true },
+    secret: { type: String, required: true, unique: false },
 });
 
 // Export client model
@@ -91,8 +91,8 @@ exports.clientModel = clientModel;
  * Token schema
  */
 var tokenSchema = new Schema({
-    userId: { type: String, required: true, unique: true },
-    clientId: { type: String, required: true, unique: true },
+    userId: { type: ObjectId, required: true, unique: false },
+    clientId: { type: ObjectId, required: true, unique: false },
     token: { type: String, required: true, unique: true },
 });
 
@@ -104,9 +104,9 @@ exports.tokenModel = tokenModel;
  * Authorization schema
  */
 var authorizationSchema = new Schema({
-    userId: { type: String, required: true, unique: true },
-    clientId: { type: String, required: true, unique: true },
-    redirectUri: { type: String, required: true, unique: true },
+    userId: { type: ObjectId, required: true, unique: false },
+    clientId: { type: ObjectId, required: true, unique: false },
+    redirectUri: { type: String, required: true, unique: false },
     code: { type: String, required: true, unique: true },
 });
 

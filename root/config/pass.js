@@ -101,6 +101,7 @@ passport.use(new BasicStrategy(
             if (client.secret != password) {
               return done(null, false);
             }
+            console.log(client);
             return done(null, client);
         });
     }
@@ -108,7 +109,7 @@ passport.use(new BasicStrategy(
 
 passport.use(new ClientPasswordStrategy(
     function(clientId, secret, done) {
-        db.clientModel.findOne({ id: clientId }, function(err, client) {
+        db.clientModel.findOne({ clientId: clientId, secret: secret }, function(err, client) {
             if (err) {
                 return done(err);
             }
@@ -133,7 +134,7 @@ passport.use(new ClientPasswordStrategy(
  */ 
 passport.use(new BearerStrategy(
     function(accessToken, done) {
-        db.tokenModel.find(accessToken, function(err, token) {
+        db.tokenModel.findOne({ token: accessToken }, function(err, token) {
             if (err) {
                 return done(err);
             }
@@ -141,7 +142,7 @@ passport.use(new BearerStrategy(
                 return done(null, false);
             }
             
-            db.tokenModel.findOne({ userId: token.userID }, function(err, user) {
+            db.userModel.findOne({ _id: token.userId }, function(err, user) {
                 if (err) {
                     return done(err);
                 }
