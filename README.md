@@ -36,15 +36,18 @@ $ cd mynewproject
 $ grunt-init gebo
 $ npm install
 $ bower install
+```
+
+### Run your server
+
+```
 $ node app.js
 ```
 
-Then go to <http://localhost:3000>.
+and go to <http://localhost:3000>.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
-
-## Release History
 
 ## License
 This project is the composite effort of two authors with three relevant projects.
