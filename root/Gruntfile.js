@@ -1,7 +1,8 @@
+'use strict';
+
 var db = require('./config/dbschema');
 
 module.exports = function(grunt) {
-    'use strict';
 
     // Project configuration.
     grunt.initConfig({
@@ -44,14 +45,14 @@ module.exports = function(grunt) {
                 src: 'Gruntfile.js'
             },
             lib: {
-                options: {
-                    jshintrc: 'lib/.jshintrc'
-                },
+//                options: {
+//                    jshintrc: 'lib/.jshintrc'
+//                },
                 src: ['lib/**/*.js']
             },
-            test: {
-                src: ['test/**/*.js']
-            },
+//            test: {
+//                src: ['test/**/*.js']
+//            },
         },
         watch: {
             gruntfile: {
