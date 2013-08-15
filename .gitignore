@@ -9,3 +9,6 @@
 *.log
 *~
 /root/package.json
+/apps/nameApp/dist/
+/apps/nameApp/node_modules/
+/apps/nameApp/app/components/

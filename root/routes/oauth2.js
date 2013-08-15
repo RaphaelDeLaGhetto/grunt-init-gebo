@@ -33,16 +33,16 @@ var server = oauth2orize.createServer();
 
 server.serializeClient(function (client, done) {
     return done(null, client.id);
-});
+  });
 
 server.deserializeClient(function (id, done) {
     db.clientModel.findOne({ '_id': mongoose.Types.ObjectId(id) }, function (err, client) {
         if (err) {
-            return done(err);
+          return done(err);
         }
         return done(null, client);
-    });
-});
+      });
+  });
 
 // Register supported grant types.
 //
@@ -62,19 +62,19 @@ server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, d
     var code = utils.uid(16);
   
     var authorization = new db.authorizationModel({
-            userId: user.id,
-            clientId: client.id,
-            redirectUri: redirectUri,
-            code: code,
-        });
+        userId: user.id,
+        clientId: client.id,
+        redirectUri: redirectUri,
+        code: code,
+      });
 
     authorization.save(function (err, code) {
         if (err) {
-            return done(err);
+          return done(err);
         }
         return done(null, code.code);
-    });
-}));
+      });
+  }));
 
 // Exchange authorization codes for access tokens.  The callback accepts the
 // `client`, which is exchanging `code` and any `redirectUri` from the
@@ -85,31 +85,31 @@ server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, d
 server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, done) {
     db.authorizationModel.findOne({ code: code }, function (err, authCode) {
         if (err) {
-            return done(err);
+          return done(err);
         }
         if (client.id._id !== authCode.clientId._id) {
-            return done(null, false);
+          return done(null, false);
         }
         if (redirectUri !== authCode.redirectUri) {
-            return done(null, false);
+          return done(null, false);
         }
     
         var tokenStr = utils.uid(256);
 
         var token = new db.tokenModel({
-                userId: authCode.userId,
-                clientId: client.id,
-                token: tokenStr,
-            });
+            userId: authCode.userId,
+            clientId: client.id,
+            token: tokenStr,
+          });
 
         token.save(function (err, token) {
             if (err) {
-                return done(err);
+              return done(err);
             }
             return done(null, token.token);
-        });
-    });
-}));
+          });
+      });
+  }));
 
 // user authorization endpoint
 //
@@ -132,23 +132,24 @@ exports.authorization = [
     server.authorization(function (clientId, redirectUri, done) {
         db.clientModel.findOne({ clientId: clientId }, function (err, client) {
             if (err) {
-                return done(err);
+              return done(err);
             }
             // WARNING: For security purposes, it is highly advisable to check that
             //          redirectURI provided by the client matches one registered with
             //          the server.  For simplicity, this example does not.  You have
             //          been warned.
             return done(null, client, redirectUri);
-        });
-    }),
+          });
+      }),
+
     function (req, res) {
         res.render('dialog', {
             transactionID: req.oauth2.transactionID,
             user: req.user,
             oauthClient: req.oauth2.client
-        });
-    }
-];
+          });
+      }
+  ];
 
 // user decision endpoint
 //
@@ -160,7 +161,7 @@ exports.authorization = [
 exports.decision = [
     login.ensureLoggedIn(),
     server.decision()
-];
+  ];
 
 // token endpoint
 //
@@ -173,6 +174,6 @@ exports.token = [
     passport.authenticate(['basic', 'oauth2-client-password'], { session: false }),
     server.token(),
     server.errorHandler()
-];
+  ];
 
 

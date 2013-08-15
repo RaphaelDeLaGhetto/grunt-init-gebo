@@ -3,7 +3,6 @@
 var passport = require('passport'),
     db = require('../config/dbschema');
 
-
 exports.userinfo = [
     passport.authenticate('bearer', { session: false }),
     function (req, res) {
@@ -13,7 +12,7 @@ exports.userinfo = [
         // example simply returns the scope in the response.
         db.userModel.findById(req.user.id, function (err, user) {
             res.json({ username: user.username, email: user.email, scope: req.authInfo.scope });
-        });
-    }
-];
+          });
+      }
+  ];
 
