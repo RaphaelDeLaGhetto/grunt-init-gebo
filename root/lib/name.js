@@ -7,6 +7,6 @@
  */
 'use strict';
 
-exports.awesome = function() {
+exports.awesome = function () {
     return 'awesome';
 };

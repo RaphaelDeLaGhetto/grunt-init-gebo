@@ -17,7 +17,7 @@
     "undef"         : true,
     "unused"        : true,
     "strict"        : true,
-    "trailing"      : false,
+    "trailing"      : true,
     "maxparams"     : false,
     "maxdepth"      : false,
     "maxstatements" : false,
@@ -63,6 +63,6 @@
     "nomen"         : false,
     "onevar"        : false,
     "passfail"      : false,
-    "white"         : false,
+    "white"         : true,
     "globals"       : {}
 }

@@ -2,7 +2,7 @@
 
 var db = require('./config/dbschema');
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
@@ -14,6 +14,7 @@ module.exports = function(grunt) {
           '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
           '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
           ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
         // Task configuration.
         concat: {
             options: {
@@ -35,7 +36,7 @@ module.exports = function(grunt) {
             },
         },
         nodeunit: {
-            files: ['test/**/*_test.js']
+            files: ['test/**/*.js']
         },
         jshint: {
             options: {
@@ -44,11 +45,14 @@ module.exports = function(grunt) {
             gruntfile: {
                 src: 'Gruntfile.js'
             },
+            apps: {
+                src: ['app/**/*.js']
+            },
             lib: {
-//                options: {
-//                    jshintrc: 'lib/.jshintrc'
-//                },
                 src: ['lib/**/*.js']
+            },
+            routes: {
+                src: ['routes/**/*.js']
             },
 //            test: {
 //                src: ['test/**/*.js']
@@ -80,23 +84,22 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify']);
 
-
     /** 
      * Thank you to jaredhanson/passport-local
      * https://github.com/jaredhanson/passport-local
      */
-    grunt.registerTask('dbseed', 'seed the database', function() {
+    grunt.registerTask('dbseed', 'seed the database', function () {
         grunt.task.run('adduser:admin:admin@example.com:secret:true');
         grunt.task.run('adduser:bob:bob@example.com:secret:false');
         grunt.task.run('addclient:Samplr:abc123:ssh-secret');
     });
 
     grunt.registerTask('adduser', 'add a user to the database',
-        function(usr, emailaddress, pass, adm) {
+        function (usr, emailaddress, pass, adm) {
             // convert adm string to bool
             adm = (adm === "true");
 
-            var user = new db.userModel({ 
+            var user = new db.userModel({
                     username: usr,
                     email: emailaddress,
                     password: pass,
@@ -106,8 +109,8 @@ module.exports = function(grunt) {
             // save call is async, put grunt into async mode to work
             var done = this.async();
 
-            user.save(function(err) {
-                if(err) {
+            user.save(function (err) {
+                if (err) {
                     console.log('Error: ' + err);
                     done(false);
                 }
@@ -119,13 +122,13 @@ module.exports = function(grunt) {
         });
 
     grunt.registerTask('dbdrop', 'drop the database',
-        function() {
+        function () {
             // async mode
             var done = this.async();
 
-            db.mongoose.connection.on('open', function () { 
-                db.mongoose.connection.db.dropDatabase(function(err) {
-                    if(err) {
+            db.mongoose.connection.on('open', function () {
+                db.mongoose.connection.db.dropDatabase(function (err) {
+                    if (err) {
                         console.log('Error: ' + err);
                         done(false);
                     }
@@ -141,7 +144,7 @@ module.exports = function(grunt) {
      * addclient
      */
     grunt.registerTask('addclient', 'add a client to the database',
-        function(name, clientId, secret) {
+        function (name, clientId, secret) {
 
             var client = new db.clientModel({
                     name: name,
@@ -152,8 +155,8 @@ module.exports = function(grunt) {
             // save call is async, put grunt into async mode to work
             var done = this.async();
 
-            client.save(function(err) {
-                if(err) {
+            client.save(function (err) {
+                if (err) {
                     console.log('Error: ' + err);
                     done(false);
                 }

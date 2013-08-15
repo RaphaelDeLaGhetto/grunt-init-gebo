@@ -3,6 +3,8 @@
  * https://github.com/jaredhanson/oauth2orize
  */
 
+'use strict';
+
 /**
  * Module dependencies.
  */
@@ -29,14 +31,14 @@ var server = oauth2orize.createServer();
 // simple matter of serializing the client's ID, and deserializing by finding
 // the client by ID from the database.
 
-server.serializeClient(function(client, done) {
-  return done(null, client.id);
+server.serializeClient(function (client, done) {
+    return done(null, client.id);
 });
 
-server.deserializeClient(function(id, done) {
-    db.clientModel.findOne({ '_id': mongoose.Types.ObjectId(id) }, function(err, client) {
+server.deserializeClient(function (id, done) {
+    db.clientModel.findOne({ '_id': mongoose.Types.ObjectId(id) }, function (err, client) {
         if (err) {
-          return done(err);
+            return done(err);
         }
         return done(null, client);
     });
@@ -56,19 +58,19 @@ server.deserializeClient(function(id, done) {
 // the application.  The application issues a code, which is bound to these
 // values, and will be exchanged for an access token.
 
-server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, done) {
-    var code = utils.uid(16)
+server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, done) {
+    var code = utils.uid(16);
   
     var authorization = new db.authorizationModel({
             userId: user.id,
             clientId: client.id,
             redirectUri: redirectUri,
-            code: code
+            code: code,
         });
 
-    authorization.save(function(err, code) {
+    authorization.save(function (err, code) {
         if (err) {
-          return done(err);
+            return done(err);
         }
         return done(null, code.code);
     });
@@ -80,33 +82,33 @@ server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, do
 // application issues an access token on behalf of the user who authorized the
 // code.
 
-server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, done) {
-  db.authorizationModel.findOne({ code: code }, function(err, authCode) {
-    if (err) {
-        return done(err);
-    }
-    if (client.id._id !== authCode.clientId._id) {
-        return done(null, false);
-    }
-    if (redirectUri !== authCode.redirectUri) {
-        return done(null, false);
-    }
-    
-    var tokenStr = utils.uid(256);
-
-    var token = new db.tokenModel({
-            userId: authCode.userId,
-            clientId: client.id,
-            token: tokenStr,
-        });
-
-    token.save(function(err, token) {
+server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, done) {
+    db.authorizationModel.findOne({ code: code }, function (err, authCode) {
         if (err) {
-          return done(err);
+            return done(err);
         }
-        return done(null, token.token);
+        if (client.id._id !== authCode.clientId._id) {
+            return done(null, false);
+        }
+        if (redirectUri !== authCode.redirectUri) {
+            return done(null, false);
+        }
+    
+        var tokenStr = utils.uid(256);
+
+        var token = new db.tokenModel({
+                userId: authCode.userId,
+                clientId: client.id,
+                token: tokenStr,
+            });
+
+        token.save(function (err, token) {
+            if (err) {
+                return done(err);
+            }
+            return done(null, token.token);
+        });
     });
-  });
 }));
 
 // user authorization endpoint
@@ -127,10 +129,10 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, do
 
 exports.authorization = [
     login.ensureLoggedIn(),
-    server.authorization(function(clientId, redirectUri, done) {
-        db.clientModel.findOne({ clientId: clientId }, function(err, client) {
+    server.authorization(function (clientId, redirectUri, done) {
+        db.clientModel.findOne({ clientId: clientId }, function (err, client) {
             if (err) {
-              return done(err);
+                return done(err);
             }
             // WARNING: For security purposes, it is highly advisable to check that
             //          redirectURI provided by the client matches one registered with
@@ -139,10 +141,10 @@ exports.authorization = [
             return done(null, client, redirectUri);
         });
     }),
-    function(req, res) {
-        res.render('dialog', { 
-            transactionID: req.oauth2.transactionID, 
-            user: req.user, 
+    function (req, res) {
+        res.render('dialog', {
+            transactionID: req.oauth2.transactionID,
+            user: req.user,
             oauthClient: req.oauth2.client
         });
     }
@@ -157,7 +159,7 @@ exports.authorization = [
 
 exports.decision = [
     login.ensureLoggedIn(),
-    server.decision() 
+    server.decision()
 ];
 
 // token endpoint
