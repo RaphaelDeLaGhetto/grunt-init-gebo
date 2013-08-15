@@ -6,6 +6,7 @@ var express = require('express')
     , pass = require('./config/pass')
     , passport = require('passport')
     , api_routes = require('./routes/api')
+    , app_routes = require('./routes/app')
     , basic_routes = require('./routes/basic')
     , user_routes = require('./routes/user')
     , oauth2_routes = require('./routes/oauth2')
@@ -38,6 +39,10 @@ app.post('/oauth/token', oauth2_routes.token);
 
 // API routes
 app.get('/api/userinfo', api_routes.userinfo);
+
+// App routes
+app.get('/demoApp', app_routes.demoApp);
+//app.get('/apps/demoApp/dist', app_routes.demoApp);
 
 logger.info('listening on', nconf.get('port'));
 app.listen(process.env.PORT || nconf.get('port'));

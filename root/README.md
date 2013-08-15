@@ -37,7 +37,7 @@ This inserts a couple of test users into your database to confirm that authentic
 grunt dbseed
 ```
 
-When you want to start adding your own users, you can erase the exisiting database like this:
+When you want to start adding your own users, you can erase the existing database like this:
 
 ```
 grunt dbdrop
