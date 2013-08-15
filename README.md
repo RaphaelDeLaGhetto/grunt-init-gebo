@@ -1,7 +1,7 @@
 grunt-init-gebo
 ===============
 
-This software, in conjunction with grunt-init, creates a ready-to-deploy/develop Express server with traditional and OAuth2 authentication, all preconfigured.
+This software, in conjunction with grunt-init, creates a ready-to-deploy/develop AngularJS app delivery system with OAuth2, all preconfigured.
 
 ## Getting Started
 
@@ -36,6 +36,16 @@ $ cd mynewproject
 $ grunt-init gebo
 $ npm install
 $ bower install
+```
+
+### Initialize the sample Angular webapp
+Gebo is an Angular app delivery system. Every app delivered by Gebo has its own dependencies independent of the server (what with Angular being client-side, and all).
+
+```
+$ cd root/apps/[name]App
+$ npm install
+$ bower install
+$ grunt
 ```
 
 ### Run your server

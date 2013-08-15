@@ -2,30 +2,6 @@
 
 {%= description %}
 
-These project include:
-
-* [wolfeidau/grunt-express-bootstrap](https://github.com/wolfeidau/grunt-express-bootstrap)
-    * [connect-cachify](https://github.com/mozilla/connect-cachify)
-    * [twitter bootstrap](http://twitter.github.com/bootstrap/)
-    * [JQuery](http://jquery.com/)
-    * [bower](http://twitter.github.com/bower/)
-    * [jade](http://jade-lang.com/)
-    * [winston-request-logger](https://github.com/wolfeidau/winston-request-logger)
-
-* [jaredhanson/passport-local](https://github.com/jaredhanson/passport-local)
-    * express
-    * passport
-    * passport-local
-    * mongoose
-    * bcrypt
-    
-* [jaredhanson/oauth2orize](https://github.com/jaredhanson/oauth2orize)
-    * oauth2orize
-    * passport-http
-    * passport-http-bearer
-    * passport-oauth2-client-password
-    * connect-ensure-login
-
 ## Setup
 
 ### your database (MongoDB)
@@ -67,6 +43,17 @@ When you want to start adding your own users, you can erase the exisiting databa
 grunt dbdrop
 ```
 
+### Initialize the sample Angular webapp
+{%= name %} is an Angular app delivery system. Every app delivered by {%= name %} has its own dependencies independent of the server (what with Angular being client-side, and all).
+
+```
+$ cd apps/{%= name %}App
+$ npm install
+$ bower install
+$ grunt
+```
+
+
 # Start the application.
 
 ```
@@ -75,9 +62,6 @@ node app.js
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
-
-## Release History
-_(Nothing yet)_
 
 ## License
 Copyright (c) {%= grunt.template.today('yyyy') %} {%= author_name %}
