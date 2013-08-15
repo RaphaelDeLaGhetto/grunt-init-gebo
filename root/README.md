@@ -47,7 +47,7 @@ grunt dbdrop
 {%= name %} is an Angular app delivery system. Every app delivered by {%= name %} has its own dependencies independent of the server (what with Angular being client-side, and all).
 
 ```
-$ cd apps/{%= name %}App
+$ cd apps/demoApp
 $ npm install
 $ bower install
 $ grunt
@@ -65,4 +65,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## License
 Copyright (c) {%= grunt.template.today('yyyy') %} {%= author_name %}
-Licensed under the {%= licenses.join(', ') %} license{%= licenses.length === 1 ? '' : 's' %}.
+{%= licenses.join(', ') %} license{%= licenses.length === 1 ? '' : 's' %}.

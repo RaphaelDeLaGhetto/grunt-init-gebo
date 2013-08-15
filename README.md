@@ -42,7 +42,7 @@ $ bower install
 Gebo is an Angular app delivery system. Every app delivered by Gebo has its own dependencies independent of the server (what with Angular being client-side, and all).
 
 ```
-$ cd root/apps/[name]App
+$ cd root/apps/demoApp
 $ npm install
 $ bower install
 $ grunt
