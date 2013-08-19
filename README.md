@@ -86,8 +86,11 @@ These projects include:
     * passport-oauth2-client-password
     * connect-ensure-login
 
-All credit to where credit is due. Thank you, [jaredhanson](https://github.com/jaredhanson) and
-[wolfeidau](https://github.com/wolfeidau).
+* [enginous/angular-oauth](https://github.com/enginous/angular-oauth)
+    * angular-oauth
+
+All credit to where credit is due. Thank you, [jaredhanson](https://github.com/jaredhanson),
+[wolfeidau](https://github.com/wolfeidau), and [enginous](https://github.com/enginous).
 
 The rest is Copyright 2013, Capitol Hill Productions Inc. 
 

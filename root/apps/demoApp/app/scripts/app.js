@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('demoApp', [])
+angular.module('demoApp', ['angularOauth', 'geboOauth'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

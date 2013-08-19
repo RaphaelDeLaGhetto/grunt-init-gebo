@@ -54,7 +54,7 @@ $ grunt
 ```
 
 
-# Start the application.
+# Run your server
 
 ```
 node server.js
