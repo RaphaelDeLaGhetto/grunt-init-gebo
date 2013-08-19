@@ -8,8 +8,7 @@ exports.demoApp = [
 //    passport.authenticate('bearer', { session: false }),
     login.ensureLoggedIn(),
     function (req, res) {
-//        res.sendfile('/apps/demoApp/dist/index.html');
-        res.redirect('http://localhost:9000');
+        res.redirect('http://localhost:4000');
       }
   ];
 

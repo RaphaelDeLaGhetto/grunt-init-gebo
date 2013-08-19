@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('nameAppApp', [])
+angular.module('demoApp', [])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

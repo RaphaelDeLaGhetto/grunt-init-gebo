@@ -12,6 +12,9 @@ var express = require('express')
     , oauth2_routes = require('./routes/oauth2')
     , util = require('util');
     
+// Expose the Express app so that it may be run
+// as a virtual host
+exports.app = app;
 
 // Logging
 var logger = new (winston.Logger)({ transports: [ new (winston.transports.Console)({colorize:true}) ] });

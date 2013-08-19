@@ -57,7 +57,7 @@ $ grunt
 # Start the application.
 
 ```
-node app.js
+node server.js
 ```
 
 ## Contributing

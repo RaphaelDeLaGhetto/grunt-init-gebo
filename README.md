@@ -51,7 +51,7 @@ $ grunt
 ### Run your server
 
 ```
-$ node app.js
+$ node server.js
 ```
 
 and go to <http://localhost:3000>.
