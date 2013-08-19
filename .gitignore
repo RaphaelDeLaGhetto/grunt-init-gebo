@@ -1,6 +1,7 @@
 /components/
 /root/public/components/
 *.swp
+*.swo
 .DS_Store
 /node_modules/
 /root/node_modules/

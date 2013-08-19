@@ -1,8 +1,8 @@
 'use strict';
 
-var passport = require('passport'),
-    login = require('connect-ensure-login'),
-    db = require('../config/dbschema');
+var //passport = require('passport'),
+    login = require('connect-ensure-login');//,
+//    db = require('../config/dbschema');
 
 exports.demoApp = [
 //    passport.authenticate('bearer', { session: false }),
