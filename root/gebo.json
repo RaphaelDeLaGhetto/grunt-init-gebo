@@ -1,22 +1,10 @@
 {
-    "domain":"http://localhost",
+    "name":"{%= name %}",
+    "email":"{%= name %}@example.com",
+    "domain":"https://localhost",
     "port":3000,
+    "httpsPort":3443,
+    "docs": "docs",
     "cachify":false,
-    "assets":{
-        "/components/bootstrap/docs/assets/css/bootstrap.css":[
-            "/components/bootstrap/docs/assets/css/bootstrap.css"
-        ],
-        "/css/style.min.css":[
-            "/css/style.css"
-        ],
-        "/js/site.min.js":[
-            "/js/site.js"
-        ],
-        "/components/jquery/jquery.min.js":[
-            "/components/jquery/jquery.js"
-        ],
-        "/components/bootstrap/docs/assets/js/bootstrap.min.js":[
-            "/components/bootstrap/docs/assets/js/bootstrap.js"
-        ]
-    }
+    "testDb": "{%= name %}-test@example.com"
 }
