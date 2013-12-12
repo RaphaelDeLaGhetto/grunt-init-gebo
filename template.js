@@ -1,28 +1,22 @@
-/*
+/**
  * grunt-init-gebo
  * https://github.com/RaphaelDeLaGhetto/grunt-init-gebo
- * Daniel Bidulock
  *
- * Adapted from:
- *
- * grunt-init-commonjs
- * https://gruntjs.com/
- *
- * Copyright (c) 2013 "Cowboy" Ben Alman, contributors
- * Licensed under the MIT license.
+ * Copyright 2013 Daniel Bidulock
+ * Licensed under the MIT license
  */
 
 'use strict';
 
 // Basic template description.
-exports.description = 'Create a commonjs module, including Nodeunit unit tests.';
+exports.description = 'A vanilla gebo agent with nodeunit unit tests.';
 
 // Template-specific notes to be displayed before question prompts.
 exports.notes = '';
 
 // Template-specific notes to be displayed after question prompts.
-exports.after = 'You should now install project dependencies with _npm ' +
-  'install_. After that, you may execute project tasks with _grunt_. For ' +
+exports.after = 'Be sure to install project dependencies with _npm ' +
+  'install_ and _bower install_. After that, you may execute project tasks with _grunt_. For ' +
   'more information about installing and configuring Grunt, please see ' +
   'the Getting Started guide:' +
   '\n\n' +
@@ -38,7 +32,7 @@ exports.template = function(grunt, init, done) {
     // Prompt for these values.
     init.prompt('name'),
     init.prompt('description'),
-    init.prompt('version'),
+    init.prompt('version', '0.0.0'),
     init.prompt('repository'),
     init.prompt('homepage'),
     init.prompt('bugs'),
@@ -50,37 +44,30 @@ exports.template = function(grunt, init, done) {
     init.prompt('main'),
     init.prompt('npm_test', 'grunt nodeunit')
   ], function(err, props) {
-    props.keywords = [];
+    props.main = props.name + '.js';
+    props.keywords = [
+            'grunt',
+            'express',
+            'bootstrap',
+            'oauth2',
+            'gebo',
+            'agent'
+        ];
     props.dependencies = {
-            "connect-cachify": "*",
-            "winston": "*",
-            "winston-request-logger": "*",
-            "jade": "*",
-            "nconf": "*",
-            "express": "*",
-            "uglify-js": "*",
-            "uglifycss": "*",
-
-            // From jaredhanson/passport-local
-            "passport": "*",
-            "passport-local": "*",
-            "mongoose": "*",
-            "bcrypt": "*",
-
-            // From jaredhanson/oauth2orize
-            "oauth2orize": "*",
-            "passport-http": "*",
-            "passport-http-bearer": "*",
-            "passport-oauth2-client-password": "*",
-            "connect-ensure-login": "*"
-         };
+            'gebo-server': '*'
+        };
     props.devDependencies = {
-      'grunt-contrib-concat': '~0.3.0',
-      'grunt-contrib-uglify': '~0.2.0',
-      'grunt-contrib-jshint': '~0.6.2',
-      'grunt-contrib-nodeunit': '~0.2.0',
-      'grunt-contrib-watch': '~0.4.0',
-    };
+            'grunt': '~0.4.1',
+            'grunt-contrib-clean': '~0.5.0',
+            'grunt-contrib-concat': '~0.3.0',
+            'grunt-contrib-copy': '~0.4.1',
+            'grunt-contrib-jshint': '~0.6.2',
+            'grunt-contrib-nodeunit': '~0.2.0',
+            'grunt-contrib-uglify': '~0.2.0',
+            'grunt-contrib-watch': '~0.4.0',
+            'database-cleaner': '~0.7.0',
+            'nock': '~0.22.1',
+        };
 
     // Files to copy (and process).
     var files = init.filesToCopy(props);
@@ -97,5 +84,4 @@ exports.template = function(grunt, init, done) {
     // All done!
     done();
   });
-
 };
