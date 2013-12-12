@@ -1,9 +1,8 @@
 /**
- * grunt-init-gebo
  * https://github.com/RaphaelDeLaGhetto/grunt-init-gebo
  *
  * Copyright 2013 Daniel Bidulock
- * Licensed under the MIT license
+ * MIT license
  */
 
 'use strict';
@@ -16,11 +15,11 @@ exports.notes = '';
 
 // Template-specific notes to be displayed after question prompts.
 exports.after = 'Be sure to install project dependencies with _npm ' +
-  'install_ and _bower install_. After that, you may execute project tasks with _grunt_. For ' +
-  'more information about installing and configuring Grunt, please see ' +
-  'the Getting Started guide:' +
-  '\n\n' +
-  'http://gruntjs.com/getting-started';
+    'install_ and _bower install_. After that, you may execute project tasks with _grunt_. For ' +
+    'more information about installing and configuring Grunt, see ' +
+    'the Getting Started guide:' +
+    '\n\n' +
+    'http://gruntjs.com/getting-started';
 
 // Any existing file or directory matching this wildcard will cause a warning.
 exports.warnOn = '*';
@@ -28,60 +27,55 @@ exports.warnOn = '*';
 // The actual init template.
 exports.template = function(grunt, init, done) {
 
-  init.process({}, [
-    // Prompt for these values.
-    init.prompt('name'),
-    init.prompt('description'),
-    init.prompt('version', '0.0.0'),
-    init.prompt('repository'),
-    init.prompt('homepage'),
-    init.prompt('bugs'),
-    init.prompt('licenses'),
-    init.prompt('author_name'),
-    init.prompt('author_email'),
-    init.prompt('author_url'),
-    init.prompt('node_version'),
-    init.prompt('main'),
-    init.prompt('npm_test', 'grunt nodeunit')
-  ], function(err, props) {
-    props.main = props.name + '.js';
-    props.keywords = [
-            'grunt',
-            'express',
-            'bootstrap',
-            'oauth2',
-            'gebo',
-            'agent'
-        ];
-    props.dependencies = {
-            'gebo-server': '*'
-        };
-    props.devDependencies = {
-            'grunt': '~0.4.1',
-            'grunt-contrib-clean': '~0.5.0',
-            'grunt-contrib-concat': '~0.3.0',
-            'grunt-contrib-copy': '~0.4.1',
-            'grunt-contrib-jshint': '~0.6.2',
-            'grunt-contrib-nodeunit': '~0.2.0',
-            'grunt-contrib-uglify': '~0.2.0',
-            'grunt-contrib-watch': '~0.4.0',
-            'database-cleaner': '~0.7.0',
-            'nock': '~0.22.1',
-        };
+    init.process({}, [
+            // Prompt for these values.
+            init.prompt('name'),
+            init.prompt('description'),
+            init.prompt('version', '0.0.0'),
+            init.prompt('repository'),
+            init.prompt('homepage'),
+            init.prompt('bugs'),
+            init.prompt('licenses'),
+            init.prompt('author_name'),
+            init.prompt('author_email'),
+            init.prompt('author_url'),
+            init.prompt('node_version'),
+            init.prompt('main'),
+            init.prompt('npm_test', 'grunt nodeunit')
+        ],
+        function(err, props) {
+            props.main = props.name + '.js';
+            props.keywords = [
+                    'gebo',
+                    'agent',
+                ];
+            props.dependencies = {
+                    'gebo-server': '*',
+                    'nconf': '*',
+                };
+            props.devDependencies = {
+                    'grunt': '~0.4.1',
+                    'grunt-contrib-jshint': '~0.6.2',
+                    'grunt-contrib-nodeunit': '~0.2.0',
+                    'grunt-contrib-watch': '~0.4.0',
+                    'database-cleaner': '~0.7.0',
+                    'nock': '~0.22.1',
+                };
+        
+            // Files to copy (and process).
+            var files = init.filesToCopy(props);
+        
+            // Add properly-named license files.
+            init.addLicenseFiles(files, props.licenses);
+        
+            // Actually copy (and process) files.
+            init.copyAndProcess(files, props);
+        
+            // Generate package.json file.
+            init.writePackageJSON('package.json', props);
+        
+            // All done!
+            done();
+      });
+  };
 
-    // Files to copy (and process).
-    var files = init.filesToCopy(props);
-
-    // Add properly-named license files.
-    init.addLicenseFiles(files, props.licenses);
-
-    // Actually copy (and process) files.
-    init.copyAndProcess(files, props);
-
-    // Generate package.json file.
-    init.writePackageJSON('package.json', props);
-
-    // All done!
-    done();
-  });
-};
