@@ -1,4 +1,5 @@
 {
     "name.js": "{%= name %}.js",
-    ".*": false
+    "*.swp": false,
+    "*~": false
 }
