@@ -10,7 +10,7 @@ html(lang='en')
                 button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-collapse")
                     span.sr-only Toggle navigation
                     span.glyphicon.glyphicon-list(style="color:white;")
-                a.navbar-brand(href="/") gebo-server
+                a.navbar-brand(href="/") {%= name %}
             .collapse.navbar-collapse.collapse
                 if (!agent)
                     ul.nav.navbar-nav
@@ -31,10 +31,10 @@ html(lang='en')
 
         block footer
             footer.page-footer
-                p &copy; Company 2013
+                p &copy; {%= author_name %} 2013
 
 
-    | !{cachify_js('/components/jquery/jquery.min.js')}
-    | !{cachify_js('/components/bootstrap/dist/js/bootstrap.min.js')}
+    | !{cachify_js('/bower_components/jquery/jquery.min.js')}
+    | !{cachify_js('/bower_components/bootstrap/dist/js/bootstrap.min.js')}
     | !{cachify_js('/js/site.js')}
     block scripts
