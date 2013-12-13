@@ -52,13 +52,14 @@ exports.template = function(grunt, init, done) {
             props.dependencies = {
                     'gebo-server': '*',
                     'nconf': '*',
+                    'q': '*',
                 };
             props.devDependencies = {
+                    'database-cleaner': '~0.7.0',
                     'grunt': '~0.4.1',
                     'grunt-contrib-jshint': '~0.6.2',
                     'grunt-contrib-nodeunit': '~0.2.0',
                     'grunt-contrib-watch': '~0.4.0',
-                    'database-cleaner': '~0.7.0',
                     'nock': '~0.22.1',
                 };
         
