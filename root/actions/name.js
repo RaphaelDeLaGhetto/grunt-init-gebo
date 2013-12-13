@@ -58,5 +58,12 @@ module.exports = function(gebo) {
       };
     exports.hello = _hello;
 
+    /**
+     * Add the action to the gebo. This doesn't have to happen here,
+     * but it does have to happen somewhere. Why not here, since
+     * you've got the gebo object handy anyway?
+     */
+    gebo.actions.add('hello', _hello);
+
     return exports;
   };
