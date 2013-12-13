@@ -37,15 +37,24 @@ module.exports = function(gebo) {
         // Is the sending agent a gebo administrator or someone
         // permitted to read the collection stored in the database?
         if (verified.admin || verified.read) {
-          deferred.resolve();
+          var agentDb = new gebo.agentSchema(verified.dbName);
+          agentDb.friendModel.findOne({ email: message.sender }, function(err, friend) {
+                  agentDb.connection.db.close();
+                  if (err) {
+                    deferred.reject(err);
+                  }
+                  else {
+                    deferred.resolve('Hello, ' + friend.name + '. It\'s nice to hear from you');
+                  }
+            });
         }
         // Or, as in this case concerning agent friendship, is the
         // sending agent unknown to the receiving agent?
         else {
-          deferred.reject();
+          deferred.reject('Hello, Stranger. Peace be with you');
         }
 
-        return deferred.promise();
+        return deferred.promise;
       };
     exports.hello = _hello;
 

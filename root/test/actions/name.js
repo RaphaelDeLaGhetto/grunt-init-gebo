@@ -37,7 +37,9 @@ exports.hello = {
               console.log(err);
             }
 
-            // Make sure you close the database connection!
+            /**
+             * Make sure you close the database connection!
+             */
             agentDb.connection.db.close();
             callback();
           });
@@ -52,15 +54,40 @@ exports.hello = {
                 }
                 agentDb.connection.db.close();
                 callback();
+                console.log('tearDown');
               });
           });
     },
 
     'Return a friendly greeting to a friendly agent': function(test) {
-        test.done();
+        test.expect(1);
+        var actions = require('../../actions')(gebo);
+        actions.hello({ dbName: 'dan@example.com', read: true },
+                      { sender: 'john@painter.com' }).
+            then(function(greeting) {
+                test.equal(greeting, 'Hello, John. It\'s nice to hear from you');
+                test.done();
+              }).
+            catch(function(err) {
+                console.log(err);
+                test.ok(false, 'Shouldn\'t get here');      
+                test.done();
+              });
     },
 
     'Return a friendly greeting to an unknown agent': function(test) {
-        test.done();
+        test.expect(1);
+        var actions = require('../../actions')(gebo);
+        actions.hello({ dbName: 'dan@example.com' },
+                      { sender: 'yanfen@example.com' }).
+            then(function(greeting) {
+                test.ok(false, 'Shouldn\'t get here');      
+                test.done();
+              }).
+            catch(function(err) {
+                test.equal(err, 'Hello, Stranger. Peace be with you');
+                test.done();
+              });
     },
   };
+
