@@ -1,6 +1,7 @@
 {
     "name.js": "{%= name %}.js",
     "actions/name.js": "{%= name %}.js",
+    "test/actions/name.js": "{%= name %}.js",
     "*.swp": false,
     "*~": false
 }
