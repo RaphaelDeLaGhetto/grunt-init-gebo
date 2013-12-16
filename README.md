@@ -21,7 +21,7 @@ These instructions are also outlined in your new gebo's
 [README.md](https://github.com/RaphaelDeLaGhetto/grunt-init-gebo/blob/master/root/README.md).
 
 ### Setup grunt
-if you haven't already, that is... Gebo currently depends on grunt 0.4.1. This requires a bit of prep work.
+if you haven't already, that is... gebo currently depends on Grunt 0.4.1. This requires a bit of prep work.
 
 ```
 $ sudo npm install grunt-cli -g
