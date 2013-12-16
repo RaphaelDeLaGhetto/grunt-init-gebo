@@ -13,7 +13,7 @@ Install MongoDB on your system, if you haven't already:
 Start MongoDB by executing this at the command line:
 
 ```
-sudo service mongodb start
+$ sudo service mongodb start
 ```
 
 ### your server
@@ -21,43 +21,32 @@ sudo service mongodb start
 First, install your npm modules:
 
 ```
-npm install
+$ sudo npm install
 ```
 
 Then, install your UI dependencies:
 
 ```
-bower install
+$ bower install
 ```
 
 # Seed the database
 This inserts a couple of test users into your database to confirm that authentication is working.
 
 ```
-grunt dbseed
+$ grunt dbseed
 ```
 
 When you want to start adding your own users, you can erase the existing database like this:
 
 ```
-grunt dbdrop
+$ grunt dbdrop
 ```
-
-### Initialize the sample Angular webapp
-{%= name %} is an Angular app delivery system. Every app delivered by {%= name %} has its own dependencies independent of the server (what with Angular being client-side, and all).
-
-```
-$ cd apps/demoApp
-$ npm install
-$ bower install
-$ grunt
-```
-
 
 # Run your server
 
 ```
-node server.js
+$ node server.js
 ```
 
 ## Contributing
