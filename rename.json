@@ -2,6 +2,7 @@
     "name.js": "{%= name %}.js",
     "actions/name.js": "actions/{%= name %}.js",
     "test/actions/name.js": "test/actions/{%= name %}.js",
+    "schemata/name.js": "schemata/{%= name %}.js",
     "*.swp": false,
     "*~": false
 }
