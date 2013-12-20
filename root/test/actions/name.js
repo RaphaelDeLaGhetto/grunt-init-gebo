@@ -54,7 +54,6 @@ exports.hello = {
                 }
                 agentDb.connection.db.close();
                 callback();
-                console.log('tearDown');
               });
           });
     },
