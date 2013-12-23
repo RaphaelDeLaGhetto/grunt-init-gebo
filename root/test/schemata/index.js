@@ -23,7 +23,7 @@ exports.onLoad = {
     'Load every file in the schemata folder': function(test) {
         test.expect(1);
         var schemata = require('../../schemata');
-        test.equal(typeof schemata.{%= name %}, 'function');
+        test.equal(typeof schemata.{%= camelCasedName %}, 'function');
         test.done();
     },
 };
@@ -48,7 +48,7 @@ exports.add = {
         test.expect(4);
 
         var schemata = require('../../schemata');
-        test.equal(typeof schemata.{%= name %}, 'function');
+        test.equal(typeof schemata.{%= camelCasedName %}, 'function');
         test.equal(schemata.test1, undefined);
 
         var test1Schema = require('./mocks/test1');
@@ -67,7 +67,7 @@ exports.add = {
         test.expect(7);
                             
         var schemata = require('../../schemata');
-        test.equal(typeof schemata.{%= name %}, 'function');
+        test.equal(typeof schemata.{%= camelCasedName %}, 'function');
         test.equal(schemata.test1, undefined);
         test.equal(schemata.test2, undefined);
                                                       
@@ -90,7 +90,7 @@ exports.add = {
         test.expect(3);
 
         var schemata = require('../../schemata');
-        test.equal(typeof schemata.{%= name %}, 'function');
+        test.equal(typeof schemata.{%= camelCasedName %}, 'function');
         test.equal(schemata.test1, undefined);
 
         var testSchema = require('./mocks/test1');
@@ -115,12 +115,13 @@ exports.remove = {
         test.expect(9);
 
         var schemata = require('../../schemata');
-        test.equal(typeof schemata.{%= name %}, 'function');
+        test.equal(typeof schemata.{%= camelCasedName %}, 'function');
         test.equal(schemata.test1, undefined);
         test.equal(schemata.test2, undefined);
 
-        var testSchema = require('./mocks/test');
+        var testSchema = require('./mocks/test1');
         schemata.add('test1', testSchema);
+        testSchema = require('./mocks/test2');
         schemata.add('test2', testSchema);
 
         test.equal(typeof schemata.test1, 'function');

@@ -1,8 +1,8 @@
 {
     "name.js": "{%= name %}.js",
-    "actions/name.js": "actions/{%= name %}.js",
-    "test/actions/name.js": "test/actions/{%= name %}.js",
-    "schemata/name.js": "schemata/{%= name %}.js",
+    "actions/name.js": "actions/{%= camelCasedName %}.js",
+    "test/actions/name.js": "test/actions/{%= camelCasedName %}.js",
+    "schemata/name.js": "schemata/{%= camelCasedName %}.js",
     "*.swp": false,
     "*~": false
 }

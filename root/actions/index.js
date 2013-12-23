@@ -8,7 +8,7 @@
 module.exports = function(gebo) {
 
     require('fs').readdirSync(__dirname + '/').forEach(function(file) {
-        if (file.match(/^\w+\.js/g) !== null && file !== 'index.js') {
+        if (file.match(/^.+\.js$/g) !== null && file !== 'index.js') {
           var actions = require('./' + file)(gebo);
           var keys = Object.keys(actions);
           for (var i = 0; i < keys.length; i++) {

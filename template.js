@@ -45,6 +45,11 @@ exports.template = function(grunt, init, done) {
         ],
         function(err, props) {
             props.main = props.name + '.js';
+
+            // Remove hyphens from name and conver to camel case
+            props.camelCasedName = props.name.replace(/-([a-z])/g,
+                    function (g) { return g[1].toUpperCase(); });
+
             props.keywords = [
                     'gebo',
                     'agent',
@@ -73,6 +78,10 @@ exports.template = function(grunt, init, done) {
             // Actually copy (and process) files.
             init.copyAndProcess(files, props);
         
+            // Remove the camelCasedName, because we
+            // don't really need it anymore
+            delete props.camelCasedName;
+
             // Generate package.json file.
             init.writePackageJSON('package.json', props);
         

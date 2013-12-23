@@ -5,7 +5,7 @@
  */
 var schema, key;
 require('fs').readdirSync(__dirname + '/').forEach(function(file) {
-    if (file.match(/^\w+\.js/g) !== null && file !== 'index.js') {
+    if (file.match(/^.+\.js$/g) !== null && file !== 'index.js') {
       schema = require('./' + file);
       key = file.replace('.js', '');
       exports[key] = schema;
