@@ -5,7 +5,7 @@ var utils = gebo.utils,
     nconf = require('nconf');
 
 nconf.file({ file: 'gebo.json' });
-var db = new gebo.geboSchema(nconf.get('email')),
+var db = new gebo.schemata.gebo(nconf.get('email')),
     actions = gebo.actions;
 
 module.exports = function (grunt) {
