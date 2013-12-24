@@ -37,7 +37,7 @@ module.exports = function(gebo) {
         // Is the sending agent a gebo administrator or someone
         // permitted to read the collection stored in the database?
         if (verified.admin || verified.read) {
-          var agentDb = new gebo.agentSchema(verified.dbName);
+          var agentDb = new gebo.schemata.agent(verified.dbName);
           agentDb.friendModel.findOne({ email: message.sender }, function(err, friend) {
                   agentDb.connection.db.close();
                   if (err) {
