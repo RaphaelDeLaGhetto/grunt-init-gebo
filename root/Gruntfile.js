@@ -157,7 +157,7 @@ module.exports = function (grunt) {
  
             utils.getPrivateKeyAndCertificate().
                 then(function(pair) {
-                    var agentDb = new gebo.agentSchema(agentEmail);
+                    var agentDb = new gebo.schemata.agent(agentEmail);
         
                     var friend = new agentDb.friendModel({
                             name: name,
@@ -195,7 +195,7 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('setpermission', 'Set access to an agent\'s resource',
         function(friendAgent, ownerAgent, resource, read, write, execute) {
-            var agentDb = new gebo.agentSchema(ownerAgent);
+            var agentDb = new gebo.schemata.agent(ownerAgent);
             
             // Save call is async. Put grunt into async mode to work
             var done = this.async();
