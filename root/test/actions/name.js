@@ -11,12 +11,12 @@ exports.hello = {
          * A vanilla gebo comes equipped with two mongoose
          * schemas: 
          *
-         *  1. geboSchema:
+         *  1. gebo:
          *      This defines data models handled exclusively
          *      by the gebo himself (e.g., registrant and 
          *      token models)
          *
-         *  2. agentSchema:
+         *  2. agent:
          *      This defines the basic data models that enable
          *      a registered agent to manage his relationships
          *      and data (e.g., friend, permission, and file
@@ -25,7 +25,7 @@ exports.hello = {
          *
          * Here, I'm adding a friend to the agent schema
          */
-        var agentDb = new gebo.agentSchema('dan@example.com');
+        var agentDb = new gebo.schemata.agent('dan@example.com');
         var friend = new agentDb.friendModel({
                         name: 'John',
                         email: 'john@painter.com',
@@ -46,7 +46,7 @@ exports.hello = {
     },
 
     tearDown: function(callback) {
-        var agentDb = new gebo.agentSchema('dan@example.com');
+        var agentDb = new gebo.schemata.agent('dan@example.com');
         agentDb.connection.on('open', function(err) {
             agentDb.connection.db.dropDatabase(function(err) {
                 if (err) {
