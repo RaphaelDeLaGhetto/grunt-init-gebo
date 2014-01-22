@@ -112,7 +112,7 @@ module.exports = function (grunt) {
                   console.log('Registered ' + agent.name);
                   actions.createDatabase({ admin: true,
                                            dbName: utils.getMongoDbName(emailaddress) },
-                                         { profile: agent }).
+                                         { content: { profile: agent } }).
                     then(function() {
                         done();
                       }).
