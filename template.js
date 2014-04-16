@@ -59,7 +59,7 @@ exports.template = function(grunt, init, done) {
                     'mongoose': '*',
                     'nconf': '*',
                     'q': '*',
-                    'strong-cluster-express-store': '*',
+                    'strong-cluster-express-store': '0.0.x',
                 };
             props.devDependencies = {
                     'database-cleaner': '~0.7.0',
