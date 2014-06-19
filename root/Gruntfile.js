@@ -5,8 +5,9 @@ var utils = gebo.utils,
     nconf = require('nconf');
 
 nconf.file({ file: 'gebo.json' });
-var db = new gebo.schemata.gebo(nconf.get('email')),
-    actions = gebo.actions;
+
+var db = new gebo.schemata.gebo(),
+    agentDb = new gebo.schemata.agent();
 
 module.exports = function (grunt) {
 
@@ -20,6 +21,8 @@ module.exports = function (grunt) {
                    '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
                    '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
                    ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
+        // Task configuration.
         nodeunit: {
             files: ['test/**/*.js', '!test/**/mocks/*.js']
         },
@@ -42,9 +45,6 @@ module.exports = function (grunt) {
             routes: {
                 src: ['routes/**/*.js']
             },
-//            test: {
-//                src: ['test/**/*.js']
-//            },
         },
         watch: {
             gruntfile: {
@@ -77,15 +77,10 @@ module.exports = function (grunt) {
     grunt.registerTask('dbseed', 'seed the database', function () {
         grunt.task.run('registeragent:admin:admin@example.com:secret:true');
         grunt.task.run('registeragent:bob:bob@example.com:secret:false');
-        grunt.task.run('addfriend:bob:bob@example.com:admin@example.com');
-        grunt.task.run('addfriend:admin:admin@example.com:bob@example.com');
+        grunt.task.run('friendo:bob:bob@example.com:admin@example.com');
+        grunt.task.run('friendo:admin:admin@example.com:bob@example.com');
         grunt.task.run('setpermission:bob@example.com:admin@example.com:gebo-server@example.com:true:false:false');
         grunt.task.run('setpermission:admin@example.com:bob@example.com:gebo-server@example.com:true:false:false');
-
-        console.log('           ******** Heads up! *********');
-        console.log('This task is intended for experimental purposes only');
-        console.log('Make sure you delete the \'bob\' and \'admin\' accounts');
-        console.log('before you expose this gebo to the world.');
       });
 
     grunt.registerTask('registeragent', 'add an agent to the database',
@@ -93,6 +88,7 @@ module.exports = function (grunt) {
             // convert adm string to bool
             adm = (adm === 'true');
 
+            var db = require('./schemata/gebo')();
             var agent = new db.registrantModel({
                 name: usr,
                 email: emailaddress,
@@ -110,19 +106,7 @@ module.exports = function (grunt) {
                 }
                 else {
                   console.log('Registered ' + agent.name);
-                  actions.createDatabase({ admin: true,
-                                           dbName: utils.getMongoDbName(emailaddress) },
-                                         { content: { profile: agent } }).
-                    then(function() {
-                        done();
-                      }).
-                    catch(function(err) {
-                        if (err) {
-                          console.log(err);
-                          done(false);
-                        }
-                        done();
-                      });
+                  done();
                 }
               });
           });
@@ -132,8 +116,10 @@ module.exports = function (grunt) {
             // async mode
             var done = this.async();
 
-            db.connection.db.on('open', function () {
-                db.connection.db.dropDatabase(function (err) {
+            var geboMongoose = require('gebo-mongoose-connection');
+            var mongoose = geboMongoose.get();
+            geboMongoose.on('mongoose-connect', function () {
+                mongoose.connection.db.dropDatabase(function (err) {
                     if (err) {
                       console.log('Error: ' + err);
                       done(false);
@@ -143,13 +129,13 @@ module.exports = function (grunt) {
                       done();
                     }
                   });
-              })
+              });
           });
 
     /**
-     * addfriend
+     * friendo
      */
-    grunt.registerTask('addfriend', 'add a friend to the agent specified',
+    grunt.registerTask('friendo', 'add a friendo to the agent specified',
         function (name, email, agentEmail, geboUri) {
 
             // Put grunt into async mode
@@ -157,9 +143,8 @@ module.exports = function (grunt) {
  
             utils.getPrivateKeyAndCertificate().
                 then(function(pair) {
-                    var agentDb = new gebo.schemata.agent(agentEmail);
-        
-                    var friend = new agentDb.friendModel({
+//                    var agentDb = require('./schemata/agent')();
+                    var friendo = new agentDb.friendoModel({
                             name: name,
                             email: email,
                             uri: geboUri,
@@ -168,10 +153,10 @@ module.exports = function (grunt) {
                         });
         
                     // Can't modify ID in findOneAndUpdate
-                    friend._id = undefined;
+                    friendo._id = undefined;
        
-                    agentDb.friendModel.findOneAndUpdate({ email: friend.email },
-                            friend.toObject(),
+                    agentDb.friendoModel.findOneAndUpdate({ email: friendo.email },
+                            friendo.toObject(),
                             { upsert: true },
                             function (err) {
                                 if (err) {
@@ -179,7 +164,7 @@ module.exports = function (grunt) {
                                   done(false);
                                 }
                                 else {
-                                  console.log('Saved friend: ' + friend.name);
+                                  console.log('Saved friendo: ' + friendo.name);
                                   done();
                                 }
                               });
@@ -194,30 +179,60 @@ module.exports = function (grunt) {
      * setpermission
      */
     grunt.registerTask('setpermission', 'Set access to an agent\'s resource',
-        function(friendAgent, ownerAgent, resource, read, write, execute) {
-            var agentDb = new gebo.schemata.agent(ownerAgent);
+        function(friendoAgent, ownerAgent, resource, read, write, execute) {
+//            var agentDb = require('./schemata/agent')();
             
             // Save call is async. Put grunt into async mode to work
             var done = this.async();
 
-            agentDb.friendModel.findOne({ email: friendAgent },
-                function(err, friend) {
+            agentDb.friendoModel.findOne({ email: friendoAgent },
+                function(err, friendo) {
                     if (err) {
                       console.log(err);
                     }
 
-                    var index = utils.getIndexOfObject(friend.hisPermissions, 'email', resource);
+                    var index = utils.getIndexOfObject(friendo.permissions, 'resource', resource);
 
                     if (index > -1) {
-                      friend.hisPermissions.splice(index, 1);
+                      friendo.permissions.splice(index, 1);
                     }
-                    friend.hisPermissions.push({ email: resource,
-                                                 read: read === 'true', 
-                                                 write: write === 'true', 
-                                                 execute: execute === 'true', 
-                                               });
+                    friendo.permissions.push({ resource: resource,
+                                               read: read === 'true', 
+                                               write: write === 'true', 
+                                               execute: execute === 'true', 
+                                             });
 
-                    friend.save(function(err) {
+                    friendo.save(function(err) {
+                        if (err) {
+                          console.log(err);
+                        }
+                        done();
+                      });
+                  });
+          });
+
+    /**
+     * createtoken
+     */
+    grunt.registerTask('createtoken', 'Create an access token for a registrant',
+        function(registrantEmail, resource, tokenString) {
+
+            // Save call is async. Put grunt into async mode to work
+            var done = this.async();
+
+            db.registrantModel.findOne({ email: registrantEmail },
+                function(err, registrant) {
+                    if (err) {
+                      console.log(err);
+                    }
+
+                    var token = new db.tokenModel({
+                                            registrantId: registrant._id,
+                                            resource: resource,
+                                            string: tokenString,
+                                        });
+
+                    token.save(function(err) {
                         if (err) {
                           console.log(err);
                         }
@@ -226,4 +241,3 @@ module.exports = function (grunt) {
                   });
           });
   };
-

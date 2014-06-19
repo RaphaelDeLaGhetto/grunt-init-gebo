@@ -5,6 +5,5 @@
     "port":3000,
     "httpsPort":3443,
     "docs": "docs",
-    "cachify":false,
-    "testDb": "{%= name %}-test@example.com"
+    "testEmail": "{%= name %}-test@example.com"
 }

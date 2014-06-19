@@ -1,6 +1,8 @@
+'use strict';
 
-var cluster = require('cluster');
-
+var cluster = require('cluster'),
+    winston = require('winston');
+var logger = new (winston.Logger)({ transports: [ new (winston.transports.Console)({ colorize: true }) ] });
 
 /**
  * The clustering stuff is courtesy of Rowan Manning
@@ -21,16 +23,12 @@ if (cluster.isMaster) {
 
     // Listen for dying workers
     cluster.on('exit', function (worker) {
-        // Replace the dead worker,
-        // we're not sentimental
-        console.log('Worker ' + worker.id + ' died :(');
+        logger.info('Worker ' + worker.id + ' croaked');
         cluster.fork();
       });
 }
 else {
-   var gebo = require('gebo-server')(__dirname);
-   
-   gebo.start();
-
-   console.log('Worker ' + cluster.worker.id + ' running!');
+    var agent = require('./agent')();
+    agent.start();
+    logger.info('Hello, Worker ' + cluster.worker.id);
 }

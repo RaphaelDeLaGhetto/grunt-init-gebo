@@ -1,7 +1,7 @@
 /**
  * https://github.com/RaphaelDeLaGhetto/grunt-init-gebo
  *
- * Copyright 2013 Daniel Bidulock
+ * Copyright 2014 Daniel Bidulock
  * MIT license
  */
 
@@ -60,6 +60,7 @@ exports.template = function(grunt, init, done) {
                     'nconf': '*',
                     'q': '*',
                     'strong-cluster-express-store': '0.0.x',
+                    'winston': '*',
                 };
             props.devDependencies = {
                     'database-cleaner': '~0.7.0',
