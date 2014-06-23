@@ -1,13 +1,9 @@
 'use strict';
 
-var gebo = require('gebo-server')();
-var utils = gebo.utils,
+var utils = require('gebo-utils'),
     nconf = require('nconf');
 
-nconf.file({ file: 'gebo.json' });
-
-var db = new gebo.schemata.gebo(),
-    agentDb = new gebo.schemata.agent();
+nconf.file({ file: './gebo.json' });
 
 module.exports = function (grunt) {
 
@@ -45,6 +41,9 @@ module.exports = function (grunt) {
             routes: {
                 src: ['routes/**/*.js']
             },
+//            test: {
+//                src: ['test/**/*.js']
+//            },
         },
         watch: {
             gruntfile: {
@@ -88,7 +87,9 @@ module.exports = function (grunt) {
             // convert adm string to bool
             adm = (adm === 'true');
 
-            var db = require('./schemata/gebo')();
+            var gebo = require('gebo-server')();
+            var db = new gebo.schemata.gebo(); 
+
             var agent = new db.registrantModel({
                 name: usr,
                 email: emailaddress,
@@ -143,7 +144,9 @@ module.exports = function (grunt) {
  
             utils.getPrivateKeyAndCertificate().
                 then(function(pair) {
-//                    var agentDb = require('./schemata/agent')();
+                    var gebo = require('gebo-server')();
+                    var agentDb = new gebo.schemata.agent(); 
+
                     var friendo = new agentDb.friendoModel({
                             name: name,
                             email: email,
@@ -180,7 +183,8 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('setpermission', 'Set access to an agent\'s resource',
         function(friendoAgent, ownerAgent, resource, read, write, execute) {
-//            var agentDb = require('./schemata/agent')();
+            var gebo = require('gebo-server')();
+            var agentDb = new gebo.schemata.agent(); 
             
             // Save call is async. Put grunt into async mode to work
             var done = this.async();
@@ -216,7 +220,9 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('createtoken', 'Create an access token for a registrant',
         function(registrantEmail, resource, tokenString) {
-
+            var gebo = require('gebo-server')();
+            var db = new gebo.schemata.gebo(); 
+ 
             // Save call is async. Put grunt into async mode to work
             var done = this.async();
 
