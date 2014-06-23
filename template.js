@@ -56,6 +56,7 @@ exports.template = function(grunt, init, done) {
                 ];
             props.dependencies = {
                     'gebo-server': '*',
+                    'gebo-utils': '*',
                     'mongoose': '*',
                     'nconf': '*',
                     'q': '*',
