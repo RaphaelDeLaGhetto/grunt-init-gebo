@@ -55,10 +55,37 @@ $ node server.js
 
 and go to <http://localhost:3000>.
 
+# Add agent
+
+From the project directory...
+
+## Register agent
+
+```
+grunt registeragent:SomeGuy:someguy@example.com:password123:false
+```
+
+## Friend agent
+
+```
+grunt friendo:SomeGuy:someguy@example.com:mynewproject-agent@example.com
+```
+
+## Set permissions
+
+```
+grunt setpermission:someguy@example.com:mynewproject-agent@example.com:someaction:false:false:true
+```
+
+## Create token
+
+```
+grunt createtoken:someguy@example.com:convert:ThisIsMyTokenLetMeIn123
+```
+
 ## Contributing
 
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any
-new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
+Hit me with it.
 
 ## License
 
