@@ -55,29 +55,29 @@ $ node server.js
 
 and go to <http://localhost:3000>.
 
-# Add agent
+## Add agent
 
 From the project directory...
 
-## Register agent
+### Register agent
 
 ```
 grunt registeragent:SomeGuy:someguy@example.com:password123:false
 ```
 
-## Friend agent
+### Friend agent
 
 ```
 grunt friendo:SomeGuy:someguy@example.com:mynewproject-agent@example.com
 ```
 
-## Set permissions
+### Set permissions
 
 ```
 grunt setpermission:someguy@example.com:mynewproject-agent@example.com:someaction:false:false:true
 ```
 
-## Create token
+### Create token
 
 ```
 grunt createtoken:someguy@example.com:convert:ThisIsMyTokenLetMeIn123
