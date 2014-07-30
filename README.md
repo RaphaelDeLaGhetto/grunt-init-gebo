@@ -68,7 +68,7 @@ grunt registeragent:SomeGuy:someguy@example.com:password123:false
 ### Friend agent
 
 ```
-grunt friendo:SomeGuy:someguy@example.com:mynewproject-agent@example.com
+grunt friendo:SomeGuy:someguy@example.com
 ```
 
 ### Set permissions
@@ -80,7 +80,7 @@ grunt setpermission:someguy@example.com:mynewproject-agent@example.com:someactio
 ### Create token
 
 ```
-grunt createtoken:someguy@example.com:convert:ThisIsMyTokenLetMeIn123
+grunt createtoken:someguy@example.com:ThisIsMyTokenLetMeIn123
 ```
 
 ## Contributing
