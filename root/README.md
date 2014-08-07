@@ -24,13 +24,44 @@ First, install your npm modules:
 $ sudo npm install
 ```
 
-Then, install your UI dependencies:
+# Agent/token management
+
+Currently, the functionality offered by the grunt-registered tasks provide the best way to assign tokens to agents.
+
+## Add agent
+
+From the project directory...
+
+### Register agent
 
 ```
-$ bower install
+grunt registeragent:SomeGuy:someguy@example.com:secretpassword123:false
 ```
 
-# Seed the database
+### Friend agent
+
+```
+grunt friendo:SomeGuy:someguy@example.com
+```
+
+### Set permissions
+
+```
+grunt setpermission:someguy@example.com:someactionorresource:false:false:true
+```
+
+### Create token
+
+```
+grunt createtoken:someguy@example.com:ThisIsMyTokenLetMeIn123
+```
+
+# Development testing
+
+The fast way to get up and running.
+
+## Seed the database
+
 This inserts a couple of test users into your database to confirm that authentication is working.
 
 ```
