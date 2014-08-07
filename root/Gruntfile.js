@@ -76,10 +76,8 @@ module.exports = function (grunt) {
     grunt.registerTask('dbseed', 'seed the database', function () {
         grunt.task.run('registeragent:admin:admin@example.com:secret:true');
         grunt.task.run('registeragent:bob:bob@example.com:secret:false');
-        grunt.task.run('friendo:bob:bob@example.com:admin@example.com');
-        grunt.task.run('friendo:admin:admin@example.com:bob@example.com');
-        grunt.task.run('setpermission:bob@example.com:admin@example.com:gebo-server@example.com:true:false:false');
-        grunt.task.run('setpermission:admin@example.com:bob@example.com:gebo-server@example.com:true:false:false');
+        grunt.task.run('friendo:bob:bob@example.com');
+        grunt.task.run('friendo:admin:admin@example.com');
       });
 
     grunt.registerTask('registeragent', 'add an agent to the database',
@@ -137,52 +135,43 @@ module.exports = function (grunt) {
      * friendo
      */
     grunt.registerTask('friendo', 'add a friendo to the agent specified',
-        function (name, email, agentEmail, geboUri) {
+        function (name, email, geboUri) {
 
             // Put grunt into async mode
             var done = this.async();
  
-            utils.getPrivateKeyAndCertificate().
-                then(function(pair) {
-                    var gebo = require('gebo-server')();
-                    var agentDb = new gebo.schemata.agent(); 
+            var gebo = require('gebo-server')();
+            var agentDb = new gebo.schemata.agent(); 
 
-                    var friendo = new agentDb.friendoModel({
-                            name: name,
-                            email: email,
-                            uri: geboUri,
-                            myPrivateKey: pair.privateKey,
-                            myCertificate: pair.certificate,
-                        });
+            var friendo = new agentDb.friendoModel({
+                    name: name,
+                    email: email,
+                    uri: geboUri,
+                });
         
-                    // Can't modify ID in findOneAndUpdate
-                    friendo._id = undefined;
+            // Can't modify ID in findOneAndUpdate
+            friendo._id = undefined;
        
-                    agentDb.friendoModel.findOneAndUpdate({ email: friendo.email },
-                            friendo.toObject(),
-                            { upsert: true },
-                            function (err) {
-                                if (err) {
-                                  console.log('Error: ' + err);
-                                  done(false);
-                                }
-                                else {
-                                  console.log('Saved friendo: ' + friendo.name);
-                                  done();
-                                }
-                              });
-                  }).
-                catch(function(err) {
-                    console.log(err);
-                    done();
-                  });
+            agentDb.friendoModel.findOneAndUpdate({ email: friendo.email },
+                    friendo.toObject(),
+                    { upsert: true },
+                    function (err) {
+                        if (err) {
+                          console.log('Error: ' + err);
+                          done(false);
+                        }
+                        else {
+                          console.log('Saved friendo: ' + friendo.name);
+                          done();
+                        }
+                      });
           });
 
     /**
      * setpermission
      */
     grunt.registerTask('setpermission', 'Set access to an agent\'s resource',
-        function(friendoAgent, ownerAgent, resource, read, write, execute) {
+        function(friendoAgent, resource, read, write, execute) {
             var gebo = require('gebo-server')();
             var agentDb = new gebo.schemata.agent(); 
             
@@ -219,22 +208,22 @@ module.exports = function (grunt) {
      * createtoken
      */
     grunt.registerTask('createtoken', 'Create an access token for a registrant',
-        function(registrantEmail, resource, tokenString) {
+        function(email,  tokenString) {
             var gebo = require('gebo-server')();
-            var db = new gebo.schemata.gebo(); 
+            var agentDb = new gebo.schemata.agent(); 
  
             // Save call is async. Put grunt into async mode to work
             var done = this.async();
 
-            db.registrantModel.findOne({ email: registrantEmail },
-                function(err, registrant) {
+            agentDb.friendoModel.findOne({ email: email },
+                function(err, friendo) {
                     if (err) {
                       console.log(err);
                     }
 
+                    var db = new gebo.schemata.gebo(); 
                     var token = new db.tokenModel({
-                                            registrantId: registrant._id,
-                                            resource: resource,
+                                            friendoId: friendo._id,
                                             string: tokenString,
                                         });
 
