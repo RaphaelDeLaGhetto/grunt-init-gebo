@@ -5,5 +5,10 @@
     "port":3000,
     "httpsPort":3443,
     "docs": "docs",
-    "testEmail": "{%= name %}-test@example.com"
+    "testEmail": "{%= name %}-test@example.com",
+    "logLevel":"trace",
+    "ssl": {
+        "key": "./cert/key.pem",
+        "cert": "./cert/cert.pem"
+    }
 }
